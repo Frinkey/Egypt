@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101828">
+<title>Egypt Trip • Cairo 1–8 Dec 2026</title>
+<style>
+:root{
+  --bg:#07111f; --panel:#0d1b2a; --panel2:#11243a; --line:#223955;
+  --text:#f6f7fb; --muted:#a7b2c3; --accent:#f6c453; --accent2:#53d8c4;
+  --danger:#ff6b6b; --good:#7ce38b; --shadow:0 12px 36px rgba(0,0,0,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#07111f 0,#081522 55%,#0b1726 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.app{max-width:1240px;margin:auto;padding:16px 14px 90px}
+.hero{
+  background:
+    radial-gradient(circle at 90% 15%,rgba(246,196,83,.20),transparent 27%),
+    radial-gradient(circle at 5% 85%,rgba(83,216,196,.16),transparent 28%),
+    linear-gradient(135deg,#132a45,#0d1b2a);
+  border:1px solid #203c5e;border-radius:26px;padding:20px;box-shadow:var(--shadow);overflow:hidden
+}
+.hero h1{font-size:clamp(26px,5vw,46px);line-height:1.04;margin:0 0 8px}
+.hero p{color:#c6d1df;margin:0;max-width:760px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.badge{border:1px solid #315072;background:#0a1828cc;padding:7px 10px;border-radius:999px;font-size:13px}
+.badge.gold{border-color:#80661e;color:#ffe397}
+.toolbar{position:sticky;top:0;z-index:20;padding:10px 0 8px;background:linear-gradient(#07111ff4,#07111fd6,transparent)}
+.tabs,.actions{display:flex;gap:8px;overflow:auto;padding-bottom:2px;scrollbar-width:none}.tabs::-webkit-scrollbar,.actions::-webkit-scrollbar{display:none}
+.tab,.btn{border:1px solid var(--line);background:#0d1b2a;color:var(--text);border-radius:12px;padding:10px 12px;white-space:nowrap}
+.tab.active,.btn.primary{background:var(--accent);border-color:var(--accent);color:#202020;font-weight:800}
+.btn.teal{background:var(--accent2);border-color:var(--accent2);color:#08221e;font-weight:800}
+.btn.ghost{background:transparent}
+.btn.danger{border-color:#6b323a;color:#ffaaaa}
+.btn.sm{font-size:12px;padding:7px 9px}
+.section{display:none}.section.active{display:block}
+.panel{background:rgba(13,27,42,.92);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin:12px 0}
+.panel h2,.panel h3{margin:0 0 10px}
+.sub{color:var(--muted);font-size:13px}
+.grid{display:grid;gap:12px}
+.grid.days{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.day{
+  background:linear-gradient(180deg,#102239,#0d1b2a);border:1px solid #29435f;
+  border-radius:18px;padding:12px;min-height:220px
+}
+.day.dragover,.pool.dragover{outline:2px dashed var(--accent);outline-offset:3px}
+.dayhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.daytitle{font-weight:900;font-size:17px}.hotel{font-size:12px;color:#b7c6d8;margin-top:3px}
+.routehint{font-size:11px;color:#7fe8d8}
+.activity{
+  background:#0a1625;border:1px solid #263b55;border-left:4px solid var(--accent);
+  border-radius:14px;padding:10px;margin:8px 0;box-shadow:0 5px 18px rgba(0,0,0,.16);
+  touch-action:pan-y
+}
+.activity[data-cat="Food"]{border-left-color:#ff9e66}
+.activity[data-cat="Night"]{border-left-color:#c39bff}
+.activity[data-cat="Culture"]{border-left-color:#63b3ff}
+.activity[data-cat="Shopping"]{border-left-color:#f78acb}
+.activity[data-cat="Transport"]{border-left-color:#98a2b3}
+.activity.dragging{opacity:.45}
+.a-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.a-name{font-weight:800;line-height:1.15}.a-time{font-variant-numeric:tabular-nums;color:#ffdf83;font-size:12px;white-space:nowrap}
+.a-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.pill{font-size:11px;color:#c6d1df;border:1px solid #29435f;border-radius:999px;padding:3px 6px}
+.desc{color:#aebbd0;font-size:12px;margin-top:7px;line-height:1.35}
+.cardactions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.cardactions button,.cardactions a{border:1px solid #29435f;background:#11243a;color:white;text-decoration:none;border-radius:9px;padding:6px 8px;font-size:11px}
+.stars{letter-spacing:1px;color:#ffd76c}
+.pool{min-height:120px;border:1px dashed #315072;border-radius:16px;padding:10px;background:#081421}
+.searchrow{display:grid;grid-template-columns:1fr auto;gap:8px;margin:8px 0 12px}
+.searchrow input{width:100%}
+input,select,textarea{background:#081421;color:white;border:1px solid #2c4663;border-radius:10px;padding:10px;min-width:0}
+textarea{min-height:90px;resize:vertical}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.formgrid .full{grid-column:1/-1}
+label{display:block;font-size:12px;color:#b8c6d8;margin-bottom:5px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.70);display:none;align-items:flex-end;justify-content:center;z-index:50}
+.modal.open{display:flex}
+.sheet{width:min(760px,100%);max-height:92vh;overflow:auto;background:#0d1b2a;border:1px solid #29435f;border-radius:24px 24px 0 0;padding:16px}
+.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.close{border:0;background:transparent;color:white;font-size:24px}
+.timeline{position:relative;margin-top:12px;padding-left:58px;min-height:780px;border-left:1px solid #29435f}
+.hour{height:60px;border-top:1px dashed #203752;position:relative}
+.hour span{position:absolute;left:-55px;top:-9px;font-size:11px;color:#8191a8}
+.eventblock{position:absolute;left:8px;right:4px;border-radius:11px;padding:6px 8px;background:#17345a;border:1px solid #365f8f;font-size:12px;overflow:hidden}
+.eventblock b{display:block;font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.kpi{background:#081421;border:1px solid #203955;padding:10px;border-radius:13px}
+.kpi b{display:block;font-size:18px}.kpi span{font-size:11px;color:var(--muted)}
+.hotelcard{border:1px solid #2a425d;border-radius:16px;padding:13px;background:#0a1726}
+.hotelcard strong{font-size:16px}
+.notice{border-left:4px solid var(--accent);background:#172238;border-radius:12px;padding:10px 12px;font-size:13px;color:#dce6f1;margin:10px 0}
+.notice.warn{border-left-color:#ff9e66}.notice.good{border-left-color:#7ce38b}
+.sources{font-size:12px;color:#b6c0cf;line-height:1.5}
+.sources a{color:#9dd7ff}
+.calendar-select{display:flex;gap:7px;overflow:auto;margin:10px 0 4px;padding-bottom:3px}
+.datechip{border:1px solid #2c4663;background:#0a1726;color:white;border-radius:12px;padding:8px 10px;min-width:86px}
+.datechip.active{background:#213d60;border-color:#567ca7}
+.bottomnav{position:fixed;left:50%;bottom:calc(8px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;width:min(520px,calc(100% - 20px));display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:#091523f2;border:1px solid #29435f;border-radius:17px;padding:6px;backdrop-filter:blur(12px)}
+.bottomnav button{border:0;background:transparent;color:#aebbd0;padding:9px 4px;border-radius:11px;font-size:11px}
+.bottomnav button.active{background:#18314f;color:white}
+.mini{font-size:11px;color:#8596ac}
+hr{border:0;border-top:1px solid #203752;margin:14px 0}
+details{border:1px solid #203752;border-radius:12px;padding:9px 10px;margin:8px 0;background:#0a1726}
+summary{cursor:pointer;font-weight:700}
+@media(max-width:640px){
+  .app{padding:10px 10px 94px}.hero{padding:16px;border-radius:20px}
+  .formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid.days{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero">
+    <div class="mini">EGYPT TRIP PLANNER • sauvegarde locale</div>
+    <h1>Le Caire · 1 → 8 déc. 2026</h1>
+    <p>Planning mobile, activités, cartes, budget indicatif, notes, import/export et itinéraires Google Maps. Les musées sont placés le matin; les quartiers populaires et soirées sont plutôt l’après-midi/soir.</p>
+    <div class="badges">
+      <span class="badge">🇪🇬 8 jours</span>
+      <span class="badge">🏨 Tahrir → Giza → Cairo chic</span>
+      <span class="badge gold">📱 LocalStorage activé</span>
+      <span class="badge">↕️ Drag & drop + bouton Déplacer</span>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b id="kpiAssigned">0</b><span>activités planifiées</span></div>
+      <div class="kpi"><b id="kpiPool">0</b><span>à placer</span></div>
+      <div class="kpi"><b id="kpiPrice">0 EGP</b><span>budget connu</span></div>
+      <div class="kpi"><b id="kpiRated">0</b><span>activités notées</span></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="tabs">
+      <button class="tab active" data-tab="planning">Planning</button>
+      <button class="tab" data-tab="calendar">Calendrier</button>
+      <button class="tab" data-tab="activities">Activités</button>
+      <button class="tab" data-tab="hotels">Hôtels / scénario</button>
+      <button class="tab" data-tab="infos">Infos utiles</button>
+    </div>
+  </div>
+
+  <section class="section active" id="planning">
+    <div class="panel">
+      <div class="actions">
+        <button class="btn primary" onclick="openActivityModal()">＋ Ajouter activité</button>
+        <button class="btn teal" onclick="autoFill()">✨ Remplir les trous</button>
+        <button class="btn" onclick="optimizeAll()">🧭 Optimiser les journées</button>
+        <button class="btn" onclick="exportData()">⬇︎ Export JSON</button>
+        <label class="btn" for="importFile">⬆︎ Import JSON</label>
+        <input id="importFile" type="file" accept=".json,application/json" hidden>
+        <button class="btn danger" onclick="resetData()">Réinitialiser</button>
+      </div>
+      <div class="notice">
+        Sur smartphone, le <b>drag & drop</b> dépend du navigateur. Le bouton <b>Déplacer</b> sur chaque carte offre un repli fiable sur iPhone.
+        « Optimiser » regroupe les visites par matin / après-midi / soirée, puis réduit les détours selon les coordonnées enregistrées.
+      </div>
+    </div>
+    <div class="grid days" id="daysGrid"></div>
+  </section>
+
+  <section class="section" id="calendar">
+    <div class="panel">
+      <h2>Vue calendrier</h2>
+      <div class="sub">Sélectionne une journée. Les blocs utilisent l'heure et la durée de l'activité.</div>
+      <div class="calendar-select" id="calendarChips"></div>
+      <div id="calendarHeader"></div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <section class="section" id="activities">
+    <div class="panel">
+      <div class="dayhead">
+        <div><h2>Liste globale</h2><div class="sub">Activités non affectées à une journée.</div></div>
+        <button class="btn primary sm" onclick="openActivityModal()">＋ Ajouter</button>
+      </div>
+      <div class="searchrow"><input id="activitySearch" placeholder="Rechercher : pyramides, resto, shopping…"><select id="catFilter"><option value="">Toutes</option><option>Culture</option><option>Food</option><option>Night</option><option>Shopping</option><option>Transport</option></select></div>
+      <div id="pool" class="pool dropzone" data-day=""></div>
+    </div>
+    <div class="panel">
+      <h3>Idées / plateformes</h3>
+      <div class="sources">
+        <a target="_blank" rel="noopener" href="https://www.withlocals.com/experiences/egypt/cairo/">Withlocals Cairo</a> ·
+        <a target="_blank" rel="noopener" href="https://www.guruwalk.com/cairo">GuruWalk Cairo</a> ·
+        <a target="_blank" rel="noopener" href="https://www.airbnb.com/s/Cairo--Egypt/experiences">Airbnb Experiences</a> ·
+        <a target="_blank" rel="noopener" href="https://www.instagram.com/reel/DdbytOItBJ6/?stkn=ZDk1dGd0YzM4dW10">Reel Instagram fourni</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="hotels">
+    <div class="panel">
+      <h2>Hébergements</h2>
+      <div class="grid" id="hotelGrid"></div>
+    </div>
+    <div class="panel">
+      <h3>6 → 8 décembre : scénario</h3>
+      <div class="notice good"><b>Par défaut :</b> rester au Caire dans un quartier plus chic (Zamalek / Garden City / New Cairo) est cohérent avec les activités restantes et évite un changement de ville supplémentaire. Alexandria reste disponible comme excursion d'une journée.</div>
+      <div class="actions">
+        <button class="btn primary" onclick="applyScenario('cairo')">Appliquer J7 « Cairo chic »</button>
+        <button class="btn" onclick="applyScenario('alex')">Appliquer J7 « Alexandria »</button>
+      </div>
+      <div class="sub" style="margin-top:8px">Les deux modèles restent modifiables ensuite. L'hôtel du 6 au 8 est volontairement « à choisir ».</div>
+    </div>
+  </section>
+
+  <section class="section" id="infos">
+    <div class="panel">
+      <h2>Infos pratiques</h2>
+      <div class="notice warn"><b>Prix et horaires :</b> ils sont indicatifs et peuvent changer d'ici décembre 2026. Vérifie les liens officiels avant de payer.</div>
+      <details open><summary>Tickets officiels / visites vérifiées</summary>
+        <div class="sources" style="margin-top:8px">
+          <b>Giza Plateau</b> : 08:00–16:00, entrée zone étranger 700 EGP. <a href="https://egymonuments.gov.eg/en/archaeological-sites/giza-plateau/" target="_blank">Source</a><br>
+          <b>Grand Egyptian Museum</b> : galerie 09:00–18:00 la plupart des jours, 09:00–21:00 mercredi/samedi; adulte « Arab or Other Nationality » 1 590 EGP au moment de la préparation. <a href="https://tickets.gem.eg/" target="_blank">Billetterie officielle</a><br>
+          <b>Egyptian Museum – Tahrir</b> : 09:00–17:00, étranger adulte 550 EGP. <a href="https://egymonuments.gov.eg/en/museums/egyptian-museum/" target="_blank">Source</a><br>
+          <b>Manial Palace</b> : 09:00–17:00, étranger adulte 220 EGP. <a href="https://egymonuments.gov.eg/museums/manial-palace-museum/" target="_blank">Source</a><br>
+          <b>Al-Muizz monuments</b> : 09:00–17:00, billet combiné étranger 220 EGP. <a href="https://egymonuments.gov.eg/en/archaeological-sites/al-muizz-street/" target="_blank">Source</a><br>
+          <b>Makan</b> : concerts du mercredi actuellement annoncés à 20:00 et 21:45, réservation recommandée; 300 EGP sur les dates publiées de septembre 2026. Le 2 décembre doit être reconfirmé. <a href="https://www.egyptmusic.org/" target="_blank">Site</a>
+        </div>
+      </details>
+      <details><summary>Réclamations officielles en Égypte</summary>
+        <div class="sources" style="margin-top:8px">
+          Système unifié des plaintes gouvernementales : <b>16528</b>, portail <a href="https://www.shakwa.eg/" target="_blank">shakwa.eg</a>, WhatsApp <b>01555516528</b> / <b>01555525444</b>.<br>
+          Pour un désaccord de facture, demande une facture fiscale détaillée et conserve les preuves. Le conseil « ne pas payer la taxe si aucune facture fiscale » n'est pas présenté ici comme une règle juridique automatique.
+        </div>
+      </details>
+      <details><summary>Mobilité / scooter</summary>
+        <div class="sources" style="margin-top:8px">
+          Rabbit : <a href="https://rabbit-app.com" target="_blank">rabbit-app.com</a> · code utilisateur enregistré : <b>RABBIT-GL3</b>.
+        </div>
+      </details>
+      <details><summary>Compte Booking égyptien</summary>
+        <div class="sources" style="margin-top:8px">Conseil personnel enregistré dans tes notes. Compare toujours le prix final, taxes incluses, et les conditions d'annulation avant de confirmer.</div>
+      </details>
+    </div>
+  </section>
+</div>
+
+<div class="bottomnav">
+  <button class="active" data-tab="planning">🗓️<br>Planning</button>
+  <button data-tab="calendar">⏱️<br>Calendrier</button>
+  <button data-tab="activities">📍<br>Activités</button>
+  <button data-tab="hotels">🏨<br>Hôtels</button>
+</div>
+
+<div class="modal" id="activityModal">
+  <div class="sheet">
+    <div class="sheethead"><h3 id="modalTitle">Ajouter une activité</h3><button class="close" onclick="closeModal()">×</button></div>
+    <form id="activityForm">
+      <input type="hidden" id="fId">
+      <div class="formgrid">
+        <div class="full"><label>Nom</label><input id="fName" required></div>
+        <div><label>Catégorie</label><select id="fCat"><option>Culture</option><option>Food</option><option>Night</option><option>Shopping</option><option>Transport</option></select></div>
+        <div><label>Zone</label><input id="fArea" placeholder="Downtown, Giza…"></div>
+        <div><label>Jour</label><select id="fDay"></select></div>
+        <div><label>Moment idéal</label><select id="fBest"><option value="morning">Matin</option><option value="afternoon">Après-midi</option><option value="evening">Soir</option><option value="any">Flexible</option></select></div>
+        <div><label>Heure</label><input id="fTime" type="time"></div>
+        <div><label>Durée (min)</label><input id="fDuration" type="number" min="15" step="15" value="90"></div>
+        <div><label>Prix EGP / personne</label><input id="fPrice" type="number" min="0" step="1"></div>
+        <div><label>Note /5</label><input id="fRating" type="number" min="0" max="5" step="1"></div>
+        <div class="full"><label>Description</label><textarea id="fDesc"></textarea></div>
+        <div class="full"><label>Google Maps / lieu</label><input id="fMaps" type="url" placeholder="https://maps.google.com/..."></div>
+        <div><label>Instagram</label><input id="fInstagram" type="url"></div>
+        <div><label>Site web</label><input id="fSite" type="url"></div>
+        <div><label>Latitude</label><input id="fLat" type="number" step="0.000001"></div>
+        <div><label>Longitude</label><input id="fLng" type="number" step="0.000001"></div>
+        <div class="full"><label>Source / vérification</label><input id="fSource" placeholder="Officiel, utilisateur, à confirmer…"></div>
+      </div>
+      <div class="actions" style="margin-top:14px">
+        <button class="btn primary" type="submit">Enregistrer</button>
+        <button class="btn" type="button" onclick="closeModal()">Annuler</button>
+        <button class="btn danger" type="button" id="deleteBtn" onclick="deleteCurrent()" style="display:none">Supprimer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="moveModal">
+  <div class="sheet">
+    <div class="sheethead"><h3>Déplacer l'activité</h3><button class="close" onclick="document.getElementById('moveModal').classList.remove('open')">×</button></div>
+    <div id="moveChoices" class="grid"></div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'egyptTripPlanner_v3';
+const dates = [
+  ['2026-12-01','Mardi 1 déc.'],['2026-12-02','Mercredi 2 déc.'],['2026-12-03','Jeudi 3 déc.'],['2026-12-04','Vendredi 4 déc.'],
+  ['2026-12-05','Samedi 5 déc.'],['2026-12-06','Dimanche 6 déc.'],['2026-12-07','Lundi 7 déc.'],['2026-12-08','Mardi 8 déc.']
+];
+
+const hotelsDefault = [
+ {from:'2026-12-01',to:'2026-12-05',name:'Tahrir Plaza Suites',area:'Downtown / Tahrir',address:'19 Meret Basha, Tahrir Square, Cairo',lat:30.0470,lng:31.2330,site:'https://tahrirplazasuitescairo.com/'},
+ {from:'2026-12-05',to:'2026-12-06',name:'The Muse Pyramids Inn',area:'Giza / Pyramids',address:'Giza / Pyramids area',lat:29.9870,lng:31.1300,site:'https://www.themusepyramids.com/'},
+ {from:'2026-12-06',to:'2026-12-08',name:'À choisir — Cairo chic',area:'Zamalek / Garden City / New Cairo',address:'Cairo, Egypt',lat:30.0448,lng:31.2243,site:''}
+];
+
+function maps(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
+function uid(){return 'a'+Math.random().toString(36).slice(2,9)}
+
+const seed = [
+{id:'a01',name:'Egyptian Museum – Tahrir',cat:'Culture',area:'Tahrir',day:'2026-12-01',best:'morning',time:'09:30',duration:150,price:550,rating:0,desc:'Musée historique juste à côté de l’hôtel. Bon choix pour la première matinée si l’arrivée le permet.',maps:maps('Egyptian Museum Tahrir Cairo'),site:'https://egymonuments.gov.eg/en/museums/egyptian-museum/',instagram:'',lat:30.0478,lng:31.2336,source:'Ministry of Tourism & Antiquities — 09:00–17:00, 550 EGP étranger adulte'},
+{id:'a02',name:'Koshary Abou Tarek',cat:'Food',area:'Downtown',day:'2026-12-01',best:'afternoon',time:'13:00',duration:60,price:0,rating:0,desc:'Koshary iconique, pratique depuis Tahrir / Downtown.',maps:maps('Koshary Abou Tarek Cairo'),site:'',instagram:'',lat:30.0509,lng:31.2383,source:'Google business — horaires actuels 07:00–01:00'},
+{id:'a03',name:'Downtown & Talaat Harb',cat:'Culture',area:'Downtown',day:'2026-12-01',best:'afternoon',time:'15:00',duration:100,price:0,rating:0,desc:'Balade légère : architecture, rues du centre, cafés et shopping.',maps:maps('Talaat Harb Square Cairo'),site:'https://www.withlocals.com/experiences/egypt/cairo/',instagram:'',lat:30.0505,lng:31.2388,source:'Itinéraire local / flexible'},
+{id:'a04',name:'Qasr El Nil + B Cairo / Zamalek',cat:'Night',area:'Zamalek',day:'2026-12-01',best:'evening',time:'18:15',duration:120,price:0,rating:0,desc:'Pont au coucher du soleil puis pause chic côté Zamalek. Ton lien Maps correspond à B Cairo / Gezira St.',maps:'https://maps.app.goo.gl/AbWVCCs2srSukvRZ7?g_st=ic',site:'https://bsg-eg.com/dailydose',instagram:'',lat:30.0458,lng:31.2240,source:'Lien utilisateur + B Cairo, Gezira St, Zamalek'},
+{id:'a05',name:'Mamsha Ahl Misr',cat:'Night',area:'Nile / Bulaq',day:'2026-12-01',best:'evening',time:'20:45',duration:90,price:0,rating:0,desc:'Promenade sur le Nil; mieux le soir après le coucher du soleil.',maps:maps('Mamsha Ahl Misr Cairo'),site:'',instagram:'',lat:30.0647,lng:31.2294,source:'Google business — ouvert tard selon le jour'},
+
+{id:'a06',name:'Manial Palace',cat:'Culture',area:'Manial',day:'2026-12-02',best:'morning',time:'09:15',duration:120,price:220,rating:0,desc:'Palais et collections; à faire le matin.',maps:maps('Manial Palace Museum Cairo'),site:'https://egymonuments.gov.eg/museums/manial-palace-museum/',instagram:'',lat:30.0299,lng:31.2247,source:'Officiel — 09:00–17:00, 220 EGP étranger adulte'},
+{id:'a07',name:'Umm Kulthum Museum – Manial',cat:'Culture',area:'Manial',day:'2026-12-02',best:'morning',time:'11:45',duration:75,price:0,rating:0,desc:'Petit musée dédié à Oum Kalthoum, à regrouper avec Manial.',maps:maps('Umm Kulthum Museum Cairo'),site:'',instagram:'',lat:30.0187,lng:31.2252,source:'Google business — horaires actuels env. 09:00–16:00'},
+{id:'a08',name:'Sayyida Zeinab & quartier',cat:'Culture',area:'Sayyida Zeinab',day:'2026-12-02',best:'afternoon',time:'16:30',duration:100,price:0,rating:0,desc:'Placée en fin d’après-midi comme demandé, pas le matin. Marché, ambiance de quartier, balade.',maps:maps('Sayyida Zeinab Mosque Cairo'),site:'',instagram:'',lat:30.0318,lng:31.2423,source:'Préférence utilisateur'},
+{id:'a09',name:'Makan – Egyptian Center for Culture & Arts',cat:'Night',area:'El Mounira',day:'2026-12-02',best:'evening',time:'20:00',duration:90,price:300,rating:0,desc:'Spectacle culturel. Mercredi 20:00 est cohérent avec la programmation actuelle; confirmer l’événement du 2 déc. avant réservation.',maps:maps('Egyptian Center for Culture and Arts Makan Cairo'),site:'https://www.egyptmusic.org/',instagram:'',lat:30.0375,lng:31.2372,source:'Site officiel — mercredis actuels 20:00 / 21:45, 300 EGP sur dates publiées'},
+
+{id:'a10',name:'Al-Muizz – monuments historiques',cat:'Culture',area:'Islamic Cairo',day:'2026-12-03',best:'morning',time:'09:30',duration:180,price:220,rating:0,desc:'Commencer tôt pour les monuments payants; la rue et le quartier peuvent se prolonger ensuite.',maps:maps('Al Muizz Street Cairo'),site:'https://egymonuments.gov.eg/en/archaeological-sites/al-muizz-street/',instagram:'',lat:30.0524,lng:31.2615,source:'Officiel — 09:00–17:00, billet monuments 220 EGP étranger'},
+{id:'a11',name:'Zizo “Natana” / Bab al-Futuh',cat:'Food',area:'Islamic Cairo',day:'2026-12-03',best:'afternoon',time:'13:00',duration:60,price:0,rating:0,desc:'Pause populaire près de Bab al-Futuh; sandwiches saucisse/kebda selon envie.',maps:maps('Zizo Bab Al Futuh Cairo'),site:'',instagram:'',lat:30.0557,lng:31.2630,source:'Note utilisateur — nom/localisation à confirmer sur place'},
+{id:'a12',name:'Khan el-Khalili + El Fishawy',cat:'Culture',area:'Islamic Cairo',day:'2026-12-03',best:'afternoon',time:'14:30',duration:180,price:0,rating:0,desc:'Souks, artisanat et café. L’ambiance monte en fin d’après-midi.',maps:maps('Khan el Khalili Cairo'),site:'',instagram:'',lat:30.0478,lng:31.2626,source:'Google business — marché ouvert jusque tard'},
+{id:'a13',name:'Mamai Restaurant – dîner & show',cat:'Night',area:'Al-Muizz',day:'2026-12-03',best:'evening',time:'18:30',duration:120,price:0,rating:0,desc:'Restaurant-théâtre dans le secteur Al-Muizz, avec tarab / tanoura selon programme.',maps:maps('Mamai Restaurant Cairo Al Moez'),site:'https://mamai-reservation.com/',instagram:'',lat:30.0533,lng:31.2613,source:'Site de réservation + Google business — soirée / spectacle'},
+{id:'a14',name:'Saheb El Saada – soirée',cat:'Night',area:'Al-Muizz',day:'2026-12-03',best:'evening',time:'21:00',duration:150,price:0,rating:0,desc:'Soirée orientale; arrivée 21:00 comme dans tes notes. Adresse Al-Muizz 121.',maps:maps('Saheb El Saada 121 Al Moez Cairo'),site:'https://linktr.ee/SahibAlsaada',instagram:'',lat:30.0507,lng:31.2618,source:'Site / Linktree + note utilisateur'},
+
+{id:'a15',name:'Baron Empain Palace',cat:'Culture',area:'Heliopolis',day:'2026-12-04',best:'morning',time:'09:30',duration:120,price:220,rating:0,desc:'Architecture remarquable; journée Est du Caire.',maps:maps('Baron Empain Palace Cairo'),site:'https://egymonuments.gov.eg/monuments/baron-empain-palace/',instagram:'',lat:30.0863,lng:31.3302,source:'Ministry of Tourism & Antiquities — adulte étranger 220 EGP'},
+{id:'a16',name:'Moshir Shop',cat:'Shopping',area:'Nasr City',day:'2026-12-04',best:'afternoon',time:'13:30',duration:90,price:0,rating:0,desc:'Shopping accessoires / beauté. Ta note mentionne “for girl / Shein shopping”.',maps:maps('Moshir Shop Nasr City Cairo'),site:'https://moshirshop.com/',instagram:'',lat:30.0629,lng:31.3440,source:'Site officiel + Google — 13:00–22:00 actuellement'},
+{id:'a17',name:'New Cairo / Fifth Settlement',cat:'Shopping',area:'New Cairo',day:'2026-12-04',best:'afternoon',time:'16:00',duration:150,price:0,rating:0,desc:'Séquence “Cairo moderne / chic” : cafés, malls et promenade. Peut accueillir Beebo / autre adresse si tu confirmes le lieu.',maps:maps('New Cairo Fifth Settlement'),site:'',instagram:'',lat:30.0250,lng:31.4700,source:'Bloc flexible'},
+{id:'a18',name:'Street of Art – وسط البلد',cat:'Night',area:'Downtown',day:'2026-12-04',best:'evening',time:'20:00',duration:90,price:0,rating:0,desc:'مبادرة شارع الفن — zone Bourse / El Sherifein. Les autorités du Caire ont annoncé une tenue régulière jeudi, vendredi et samedi.',maps:maps('El Sherifein Street Downtown Cairo'),site:'https://www.cairo.gov.eg/',instagram:'',lat:30.0492,lng:31.2412,source:'Cairo Governorate — programme hebdomadaire Thu/Fri/Sat annoncé en mai 2026'},
+
+{id:'a19',name:'Grand Egyptian Museum (GEM)',cat:'Culture',area:'Giza',day:'2026-12-05',best:'morning',time:'09:30',duration:240,price:1590,rating:0,desc:'Prévoir une vraie demi-journée. Billet officiel en ligne avec créneau.',maps:maps('Grand Egyptian Museum Giza'),site:'https://tickets.gem.eg/',instagram:'',lat:29.9930,lng:31.1194,source:'Billetterie officielle — 1 590 EGP adulte Arab/Other Nationality au 30/09/2026'},
+{id:'a20',name:'Check-in The Muse + pause',cat:'Transport',area:'Giza',day:'2026-12-05',best:'afternoon',time:'15:00',duration:120,price:0,rating:0,desc:'Installation à Giza avant la soirée désert.',maps:maps('The Muse Pyramids Inn Cairo'),site:'https://www.themusepyramids.com/',instagram:'',lat:29.9870,lng:31.1300,source:'Hôtel utilisateur'},
+{id:'a21',name:'Quad / safari pyramides',cat:'Night',area:'Giza',day:'2026-12-05',best:'evening',time:'18:30',duration:90,price:900,rating:0,desc:'@quad_bikes_pyramids__ — note utilisateur : 900 EGP/personne, meilleur créneau 18:30; enfant à moitié prix. À reconfirmer directement avec le prestataire.',maps:maps('Giza Pyramids quad bike safari'),site:'',instagram:'https://www.instagram.com/quad_bikes_pyramids__/',lat:29.9790,lng:31.1320,source:'Informations utilisateur — tarif à reconfirmer'},
+{id:'a22',name:'Rooftop 7000 – vue pyramides',cat:'Food',area:'Giza',day:'2026-12-05',best:'evening',time:'20:30',duration:120,price:0,rating:0,desc:'Dîner après le safari. Vue sur Pyramides / Sphinx; service annoncé +12% sur le menu du site.',maps:maps('Rooftop 7000 Giza'),site:'https://rooftop7000.com/',instagram:'',lat:29.9752,lng:31.1410,source:'Site officiel — 14 Abou Al Hool Al Seiahi'},
+
+{id:'a23',name:'Giza Plateau – Pyramides & Sphinx',cat:'Culture',area:'Giza',day:'2026-12-06',best:'morning',time:'08:00',duration:150,price:700,rating:0,desc:'Créneau tôt : moins chaud et compatible avec check-out. L’entrée dans la Grande Pyramide est en supplément.',maps:maps('Giza Pyramids'),site:'https://egymonuments.gov.eg/en/archaeological-sites/giza-plateau/',instagram:'',lat:29.9792,lng:31.1342,source:'Officiel — 08:00–16:00, zone 700 EGP étranger'},
+{id:'a24',name:'Check-out Muse → Cairo',cat:'Transport',area:'Giza → Cairo',day:'2026-12-06',best:'morning',time:'10:45',duration:75,price:0,rating:0,desc:'Retour récupérer les bagages puis départ vers le prochain hôtel.',maps:maps('Cairo Egypt'),site:'',instagram:'',lat:30.0444,lng:31.2357,source:'Logistique'},
+{id:'a25',name:'Karam El Sham Faisal + jus',cat:'Food',area:'Faisal',day:'2026-12-06',best:'afternoon',time:'12:30',duration:90,price:0,rating:0,desc:'Déjeuner syrien + jus dans le secteur Faisal. Peut être supprimé si tu préfères éviter un détour.',maps:maps('Karam El Sham Faisal Cairo'),site:'',instagram:'',lat:30.0047,lng:31.1640,source:'Karam El Sham Faisal vérifié; Abu Hammam à confirmer'},
+{id:'a26',name:'Dahabiya Cairo – dîner / soirée Nil',cat:'Night',area:'Dokki / Nile',day:'2026-12-06',best:'evening',time:'20:00',duration:150,price:0,rating:0,desc:'Ton lien “سيخ مشوي دهبية” pointe vers Dahabiya Cairo, 106 Nile St, Dokki. Réservation conseillée.',maps:'https://maps.app.goo.gl/ZJz6ytcGf6psKqbQ7?g_st=ic',site:'https://dahabiyacairo.com/',instagram:'',lat:30.0401,lng:31.2148,source:'Lien utilisateur + site Dahabiya'},
+
+{id:'a27',name:'Petit-déjeuner chic Zamalek',cat:'Food',area:'Zamalek',day:'2026-12-07',best:'morning',time:'09:30',duration:90,price:0,rating:0,desc:'Matinée calme dans le secteur du Nil. Remplace par l’adresse de ton choix.',maps:maps('Zamalek Cairo breakfast'),site:'',instagram:'',lat:30.0610,lng:31.2190,source:'Bloc flexible'},
+{id:'a28',name:'Shopping / Cairo moderne',cat:'Shopping',area:'Zamalek / New Cairo',day:'2026-12-07',best:'afternoon',time:'12:00',duration:210,price:0,rating:0,desc:'Bloc luxe / shopping; déplace ici les adresses chic que tu ajoutes.',maps:maps('Cairo Festival City Mall'),site:'',instagram:'',lat:30.0270,lng:31.4098,source:'Bloc flexible'},
+{id:'a29',name:'Cairo Tower au coucher du soleil',cat:'Culture',area:'Zamalek',day:'2026-12-07',best:'evening',time:'16:30',duration:120,price:0,rating:0,desc:'Plus intéressant en fin d’après-midi pour voir la ville de jour puis de nuit.',maps:maps('Cairo Tower'),site:'',instagram:'',lat:30.0459,lng:31.2243,source:'Google business — actuellement ouvert jusque 23:00'},
+{id:'a30',name:'B Cairo / Nile chill',cat:'Night',area:'Zamalek',day:'2026-12-07',best:'evening',time:'19:00',duration:150,price:0,rating:0,desc:'Fin de séjour plus chic et calme autour de Zamalek.',maps:'https://maps.app.goo.gl/AbWVCCs2srSukvRZ7?g_st=ic',site:'https://bsg-eg.com/dailydose',instagram:'',lat:30.0458,lng:31.2240,source:'Lien utilisateur + B Cairo'},
+
+{id:'a31',name:'Matin libre / achats de dernière minute',cat:'Shopping',area:'Downtown / Zamalek',day:'2026-12-08',best:'morning',time:'09:00',duration:120,price:0,rating:0,desc:'Tampon volontaire : l’heure du vol n’est pas connue. Garde du temps pour bagages et aéroport.',maps:maps('Cairo Egypt'),site:'',instagram:'',lat:30.0444,lng:31.2357,source:'Planning flexible'},
+{id:'a32',name:'Transfert aéroport',cat:'Transport',area:'Cairo',day:'2026-12-08',best:'any',time:'12:00',duration:90,price:0,rating:0,desc:'Heure à modifier dès que le vol retour est connu. Prévoir une marge généreuse selon trafic.',maps:maps('Cairo International Airport'),site:'',instagram:'',lat:30.1219,lng:31.4056,source:'À adapter au vol'},
+
+{id:'p01',name:'Hawawshi El Rifai',cat:'Food',area:'Sayyida Zeinab',day:'',best:'afternoon',time:'',duration:60,price:0,rating:0,desc:'أكلة خفيفة. À glisser après Sayyida Zeinab si l’adresse exacte correspond bien au secteur.',maps:maps('حواوشي الرفاعي السيدة زينب القاهرة'),site:'',instagram:'',lat:30.0320,lng:31.2430,source:'Note utilisateur — adresse exacte à confirmer'},
+{id:'p02',name:'Bahij – seafood / ملك الفسفور',cat:'Food',area:'Cairo',day:'',best:'afternoon',time:'',duration:90,price:0,rating:0,desc:'Restaurant poisson mentionné dans tes notes. Localisation exacte à confirmer avant de l’intégrer à l’itinéraire.',maps:maps('بهيج ملك الفسفور القاهرة'),site:'',instagram:'',lat:null,lng:null,source:'Note utilisateur — non vérifié'},
+{id:'p03',name:'Esca Cueva – sunset restaurant',cat:'Food',area:'Cairo',day:'',best:'evening',time:'17:00',duration:120,price:0,rating:0,desc:'À placer au coucher du soleil une fois l’adresse exacte confirmée.',maps:maps('Esca Cueva Cairo'),site:'',instagram:'',lat:null,lng:null,source:'Note utilisateur — localisation à confirmer'},
+{id:'p04',name:'Cafe Abu Al Araby – night show',cat:'Night',area:'Cairo',day:'',best:'evening',time:'21:00',duration:120,price:0,rating:0,desc:'Soirée / show nocturne. Adresse et programme à confirmer.',maps:maps('Cafe Abu Al Araby Cairo'),site:'',instagram:'',lat:null,lng:null,source:'Note utilisateur — à confirmer'},
+{id:'p05',name:'Felucca privée sur le Nil',cat:'Night',area:'Nile',day:'',best:'evening',time:'17:30',duration:60,price:375,rating:0,desc:'Budget utilisateur : env. 300–450 EGP / heure pour une felouque privée, à négocier et confirmer sur place.',maps:maps('Felucca Nile Cairo Qasr El Nil'),site:'',instagram:'',lat:30.0435,lng:31.2270,source:'Estimation utilisateur'},
+{id:'p06',name:'Rabbit scooter',cat:'Transport',area:'Cairo',day:'',best:'any',time:'',duration:45,price:0,rating:0,desc:'Micro-mobilité; code promo enregistré : RABBIT-GL3.',maps:maps('Cairo Egypt'),site:'https://rabbit-app.com',instagram:'',lat:null,lng:null,source:'Site Rabbit + code utilisateur'},
+{id:'p07',name:'Nile Jetcar rental',cat:'Transport',area:'Nile',day:'',best:'afternoon',time:'',duration:60,price:0,rating:0,desc:'Activité notée par toi; coordonnées / prestataire à confirmer avant réservation.',maps:maps('Nile jet car Cairo'),site:'',instagram:'',lat:null,lng:null,source:'Note utilisateur — à confirmer'},
+{id:'p08',name:'Alexandria – excursion journée',cat:'Culture',area:'Alexandria',day:'',best:'morning',time:'07:00',duration:720,price:0,rating:0,desc:'Option 12 h environ. À utiliser à la place de la journée Cairo chic si tu veux absolument voir Alexandrie.',maps:maps('Alexandria Egypt'),site:'https://www.withlocals.com/experiences/egypt/cairo/',instagram:'',lat:31.2001,lng:29.9187,source:'Withlocals affiche actuellement une excursion Alexandria de 12 h'},
+{id:'p09',name:'GuruWalk – walking tour Cairo',cat:'Culture',area:'Cairo',day:'',best:'afternoon',time:'',duration:150,price:0,rating:0,desc:'Choisir un parcours selon les disponibilités de décembre.',maps:maps('Cairo Egypt'),site:'https://www.guruwalk.com/cairo',instagram:'',lat:null,lng:null,source:'GuruWalk Cairo'},
+{id:'p10',name:'Withlocals – Cairo After Dark',cat:'Night',area:'Islamic Cairo',day:'',best:'evening',time:'19:30',duration:120,price:0,rating:0,desc:'Tour nocturne de Cairo historique; alternative guidée au parcours Al-Muizz / Khan.',maps:maps('Khan el Khalili Cairo'),site:'https://www.withlocals.com/experiences/egypt/cairo/',instagram:'',lat:30.0478,lng:31.2626,source:'Withlocals — Cairo After Dark actuellement 2 h'},
+];
+
+let state = load();
+let selectedCalendarDay = '2026-12-01';
+let movingId = null;
+
+function load(){
+  try{
+    const x = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(x && Array.isArray(x.activities)) return x;
+  }catch(e){}
+  return {activities: structuredClone(seed), hotels: structuredClone(hotelsDefault), scenario:'cairo'};
+}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));renderAll()}
+function dayLabel(day){return dates.find(d=>d[0]===day)?.[1] || 'Liste globale'}
+function hotelFor(day){
+  let h = state.hotels.find(x=>day>=x.from && day<x.to);
+  if(!h && day==='2026-12-08') h=state.hotels.find(x=>x.to==='2026-12-08');
+  return h;
+}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function fmtPrice(n){return n? new Intl.NumberFormat('fr-FR').format(n)+' EGP':'—'}
+function stars(n){n=Number(n)||0; return '★'.repeat(n)+'☆'.repeat(Math.max(0,5-n))}
+function timeRank(a){const b={morning:1,afternoon:2,evening:3,any:4}; return b[a.best]||4}
+function minute(t){if(!t)return 9999;const [h,m]=t.split(':').map(Number);return h*60+m}
+function card(a){
+  const mapLink = a.maps || maps(a.name+' Cairo');
+  return `<article class="activity" draggable="true" data-id="${a.id}" data-cat="${esc(a.cat)}">
+    <div class="a-top"><div class="a-name">${esc(a.name)}</div><div class="a-time">${a.time?esc(a.time):'heure libre'}</div></div>
+    <div class="a-meta">
+      <span class="pill">${esc(a.cat)}</span><span class="pill">${esc(a.area||'')}</span>
+      ${a.duration?`<span class="pill">${a.duration} min</span>`:''}
+      ${a.price?`<span class="pill">${fmtPrice(a.price)}</span>`:''}
+      ${a.rating?`<span class="pill stars">${stars(a.rating)}</span>`:''}
+    </div>
+    ${a.desc?`<div class="desc">${esc(a.desc)}</div>`:''}
+    <div class="cardactions">
+      <a href="${esc(mapLink)}" target="_blank" rel="noopener">Maps</a>
+      ${a.site?`<a href="${esc(a.site)}" target="_blank" rel="noopener">Site</a>`:''}
+      ${a.instagram?`<a href="${esc(a.instagram)}" target="_blank" rel="noopener">Instagram</a>`:''}
+      <button onclick="editActivity('${a.id}')">Modifier</button>
+      <button onclick="openMove('${a.id}')">Déplacer</button>
+    </div>
+  </article>`;
+}
+
+function renderDays(){
+  const el=document.getElementById('daysGrid');
+  el.innerHTML=dates.map(([d,label])=>{
+    const h=hotelFor(d);
+    const acts=state.activities.filter(a=>a.day===d).sort((a,b)=>minute(a.time)-minute(b.time));
+    const src = h ? [h.lat,h.lng] : [30.0444,31.2357];
+    const dest = acts.filter(a=>a.lat&&a.lng);
+    const route = dest.length?routeUrl(src,dest):'';
+    return `<div class="day dropzone" data-day="${d}">
+      <div class="dayhead">
+        <div><div class="daytitle">${label}</div><div class="hotel">🏨 ${esc(h?.name||'Hôtel à définir')}</div></div>
+        <button class="btn sm" onclick="optimizeDay('${d}')">🧭 Optimiser</button>
+      </div>
+      ${route?`<a class="routehint" href="${route}" target="_blank" rel="noopener">Ouvrir l’itinéraire complet dans Google Maps ↗</a>`:''}
+      <div class="daylist">${acts.length?acts.map(card).join(''):'<div class="sub">Dépose une activité ici.</div>'}</div>
+    </div>`
+  }).join('');
+  bindDrag();
+}
+
+function renderPool(){
+  const q=(document.getElementById('activitySearch')?.value||'').toLowerCase();
+  const c=document.getElementById('catFilter')?.value||'';
+  const acts=state.activities.filter(a=>!a.day).filter(a=>(!c||a.cat===c)&&(!q||(a.name+' '+a.area+' '+a.desc).toLowerCase().includes(q)));
+  document.getElementById('pool').innerHTML=acts.length?acts.map(card).join(''):'<div class="sub">Aucune activité à placer.</div>';
+  bindDrag();
+}
+
+function renderHotels(){
+  document.getElementById('hotelGrid').innerHTML=state.hotels.map(h=>`<div class="hotelcard">
+    <strong>${esc(h.name)}</strong><div class="sub">${esc(h.from)} → ${esc(h.to)} · ${esc(h.area)}</div>
+    <div class="desc">${esc(h.address)}</div>
+    <div class="cardactions"><a href="${maps(h.address)}" target="_blank">Maps</a>${h.site?`<a href="${h.site}" target="_blank">Site</a>`:''}</div>
+  </div>`).join('');
+}
+
+function renderCalendar(){
+  document.getElementById('calendarChips').innerHTML=dates.map(([d,l])=>`<button class="datechip ${d===selectedCalendarDay?'active':''}" onclick="selectCalendar('${d}')">${l.replace(' déc.','')}</button>`).join('');
+  const h=hotelFor(selectedCalendarDay);
+  document.getElementById('calendarHeader').innerHTML=`<h3 style="margin:10px 0 2px">${dayLabel(selectedCalendarDay)}</h3><div class="sub">🏨 ${esc(h?.name||'Hôtel à définir')}</div>`;
+  const tl=document.getElementById('timeline');
+  let hours='';
+  for(let hr=7;hr<=23;hr++) hours+=`<div class="hour"><span>${String(hr).padStart(2,'0')}:00</span></div>`;
+  tl.innerHTML=hours;
+  const acts=state.activities.filter(a=>a.day===selectedCalendarDay && a.time);
+  acts.forEach(a=>{
+    const m=minute(a.time), start=7*60;
+    if(m<start||m>24*60)return;
+    const top=(m-start);
+    const height=Math.max(34,Math.min(a.duration||60,180));
+    const e=document.createElement('div'); e.className='eventblock'; e.style.top=top+'px'; e.style.height=height+'px';
+    e.innerHTML=`<b>${esc(a.time)} · ${esc(a.name)}</b><span>${esc(a.area||'')} · ${a.duration||60} min</span>`;
+    e.onclick=()=>editActivity(a.id); tl.appendChild(e);
+  });
+}
+
+function renderKPIs(){
+  const assigned=state.activities.filter(a=>a.day).length, pool=state.activities.length-assigned;
+  const price=state.activities.filter(a=>a.day).reduce((s,a)=>s+(Number(a.price)||0),0);
+  document.getElementById('kpiAssigned').textContent=assigned;
+  document.getElementById('kpiPool').textContent=pool;
+  document.getElementById('kpiPrice').textContent=new Intl.NumberFormat('fr-FR').format(price)+' EGP';
+  document.getElementById('kpiRated').textContent=state.activities.filter(a=>a.rating>0).length;
+}
+function renderAll(){renderDays();renderPool();renderHotels();renderCalendar();renderKPIs()}
+
+function selectCalendar(d){selectedCalendarDay=d;renderCalendar()}
+function getAct(id){return state.activities.find(a=>a.id===id)}
+
+function bindDrag(){
+  document.querySelectorAll('.activity').forEach(el=>{
+    el.ondragstart=e=>{el.classList.add('dragging');e.dataTransfer.setData('text/plain',el.dataset.id)}
+    el.ondragend=()=>el.classList.remove('dragging');
+  });
+  document.querySelectorAll('.dropzone').forEach(z=>{
+    z.ondragover=e=>{e.preventDefault();z.classList.add('dragover')}
+    z.ondragleave=()=>z.classList.remove('dragover');
+    z.ondrop=e=>{e.preventDefault();z.classList.remove('dragover');const id=e.dataTransfer.getData('text/plain');moveTo(id,z.dataset.day||'')}
+  });
+}
+function moveTo(id,day){const a=getAct(id);if(!a)return;a.day=day;if(day && !a.time) a.time=suggestTime(a.best,day);save()}
+function suggestTime(best,day){
+ const used=state.activities.filter(a=>a.day===day).map(a=>minute(a.time));
+ const bases=best==='morning'?[540,600,660]:best==='afternoon'?[780,870,960]:best==='evening'?[1080,1170,1260]:[600,840,1140];
+ return toTime(bases.find(x=>!used.some(u=>Math.abs(u-x)<50))||bases[bases.length-1]);
+}
+function toTime(m){return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')}
+
+function openMove(id){
+ movingId=id; const box=document.getElementById('moveChoices');
+ box.innerHTML=`<button class="btn" onclick="moveChoice('')">📍 Liste globale</button>`+dates.map(([d,l])=>`<button class="btn" onclick="moveChoice('${d}')">${l}</button>`).join('');
+ document.getElementById('moveModal').classList.add('open');
+}
+function moveChoice(d){moveTo(movingId,d);document.getElementById('moveModal').classList.remove('open')}
+
+function openActivityModal(id=null){
+ const a=id?getAct(id):null;
+ document.getElementById('modalTitle').textContent=a?'Modifier l’activité':'Ajouter une activité';
+ document.getElementById('deleteBtn').style.display=a?'inline-block':'none';
+ document.getElementById('fDay').innerHTML='<option value="">Liste globale</option>'+dates.map(([d,l])=>`<option value="${d}">${l}</option>`).join('');
+ const v=(k,def='')=>a?.[k]??def;
+ fId.value=v('id');fName.value=v('name');fCat.value=v('cat','Culture');fArea.value=v('area');fDay.value=v('day');fBest.value=v('best','any');fTime.value=v('time');fDuration.value=v('duration',90);fPrice.value=v('price');fRating.value=v('rating');fDesc.value=v('desc');fMaps.value=v('maps');fInstagram.value=v('instagram');fSite.value=v('site');fLat.value=v('lat');fLng.value=v('lng');fSource.value=v('source');
+ document.getElementById('activityModal').classList.add('open');
+}
+function editActivity(id){openActivityModal(id)}
+function closeModal(){document.getElementById('activityModal').classList.remove('open')}
+activityForm.onsubmit=e=>{
+ e.preventDefault(); const id=fId.value||uid(); let a=getAct(id);
+ const obj={id,name:fName.value.trim(),cat:fCat.value,area:fArea.value.trim(),day:fDay.value,best:fBest.value,time:fTime.value,duration:Number(fDuration.value)||60,price:Number(fPrice.value)||0,rating:Number(fRating.value)||0,desc:fDesc.value.trim(),maps:fMaps.value.trim(),instagram:fInstagram.value.trim(),site:fSite.value.trim(),lat:fLat.value?Number(fLat.value):null,lng:fLng.value?Number(fLng.value):null,source:fSource.value.trim()};
+ if(a) Object.assign(a,obj); else state.activities.push(obj);
+ closeModal();save();
+}
+function deleteCurrent(){const id=fId.value;if(!id)return;if(confirm('Supprimer cette activité ?')){state.activities=state.activities.filter(a=>a.id!==id);closeModal();save()}}
+
+function hav(a,b){
+ if(!a||!b||a[0]==null||b[0]==null)return 9999;
+ const R=6371, d2r=Math.PI/180, dlat=(b[0]-a[0])*d2r,dlon=(b[1]-a[1])*d2r;
+ const x=Math.sin(dlat/2)**2+Math.cos(a[0]*d2r)*Math.cos(b[0]*d2r)*Math.sin(dlon/2)**2;
+ return 2*R*Math.asin(Math.sqrt(x));
+}
+function optimizeDay(day){
+ const h=hotelFor(day), start=h?[h.lat,h.lng]:[30.0444,31.2357];
+ const acts=state.activities.filter(a=>a.day===day);
+ const groups={1:[],2:[],3:[],4:[]}; acts.forEach(a=>groups[timeRank(a)].push(a));
+ let cursor=start, order=[];
+ [1,2,3,4].forEach(g=>{
+   let remaining=[...groups[g]];
+   while(remaining.length){
+     remaining.sort((x,y)=>hav(cursor,[x.lat,x.lng])-hav(cursor,[y.lat,y.lng]));
+     const n=remaining.shift();order.push(n);if(n.lat&&n.lng)cursor=[n.lat,n.lng];
+   }
+ });
+ const base={1:540,2:780,3:1080,4:720}, curs={...base};
+ order.forEach(a=>{const g=timeRank(a); if(!a.time || g!==4){a.time=toTime(curs[g]);curs[g]+=Math.max(60,a.duration||60)+20}});
+ save();
+}
+function optimizeAll(){dates.forEach(([d])=>optimizeDaySilent(d));save()}
+function optimizeDaySilent(day){
+ const h=hotelFor(day), start=h?[h.lat,h.lng]:[30.0444,31.2357];
+ const acts=state.activities.filter(a=>a.day===day); const groups={1:[],2:[],3:[],4:[]};acts.forEach(a=>groups[timeRank(a)].push(a));
+ let cursor=start,order=[];[1,2,3,4].forEach(g=>{let rem=[...groups[g]];while(rem.length){rem.sort((x,y)=>hav(cursor,[x.lat,x.lng])-hav(cursor,[y.lat,y.lng]));let n=rem.shift();order.push(n);if(n.lat&&n.lng)cursor=[n.lat,n.lng]}})
+ const curs={1:540,2:780,3:1080,4:720};order.forEach(a=>{const g=timeRank(a);a.time=toTime(curs[g]);curs[g]+=Math.max(60,a.duration||60)+20});
+}
+function routeUrl(src,acts){
+ const good=acts.filter(a=>a.lat&&a.lng); if(!good.length)return '';
+ const origin=src.join(','), destination=[good[good.length-1].lat,good[good.length-1].lng].join(',');
+ const way=good.slice(0,-1).map(a=>a.lat+','+a.lng).join('|');
+ return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&origin='+encodeURIComponent(origin)+'&destination='+encodeURIComponent(destination)+(way?'&waypoints='+encodeURIComponent(way):'');
+}
+function autoFill(){
+ const un=state.activities.filter(a=>!a.day && a.lat&&a.lng && a.id!=='p08');
+ const capacity={};dates.forEach(([d])=>capacity[d]=Math.max(0,4-state.activities.filter(a=>a.day===d).length));
+ un.forEach(a=>{
+   let best=null,bestScore=1e9;
+   dates.forEach(([d])=>{
+     if(capacity[d]<=0)return;const h=hotelFor(d);if(!h)return;
+     const dist=hav([h.lat,h.lng],[a.lat,a.lng]);
+     let penalty=0;
+     if(a.area==='Giza' && !(d==='2026-12-05'||d==='2026-12-06'))penalty+=40;
+     if(a.area==='Islamic Cairo' && d==='2026-12-05')penalty+=30;
+     const score=dist+penalty;
+     if(score<bestScore){bestScore=score;best=d}
+   });
+   if(best){a.day=best;a.time=suggestTime(a.best,best);capacity[best]--}
+ });
+ optimizeAll();
+}
+
+const cairoTemplate=[
+ ['a27','09:30'],['a28','12:00'],['a29','16:30'],['a30','19:00']
+];
+function applyScenario(type){
+ state.activities.forEach(a=>{if(a.day==='2026-12-07')a.day=''});
+ if(type==='alex'){
+   const alex=getAct('p08'); if(alex){alex.day='2026-12-07';alex.time='07:00'}
+   state.scenario='alex';
+ }else{
+   cairoTemplate.forEach(([id,t])=>{const a=getAct(id);if(a){a.day='2026-12-07';a.time=t}});
+   state.scenario='cairo';
+ }
+ save();
+}
+
+function exportData(){
+ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+ const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='egypt-trip-planner-2026-backup.json';a.click();URL.revokeObjectURL(u);
+}
+importFile.onchange=async e=>{
+ const f=e.target.files?.[0];if(!f)return;
+ try{const x=JSON.parse(await f.text());if(!x.activities)throw new Error();state=x;save();alert('Import réussi.')}catch(err){alert('Fichier JSON invalide.')}
+ e.target.value='';
+}
+function resetData(){if(confirm('Revenir au planning d’origine ?')){localStorage.removeItem(STORAGE_KEY);state={activities:structuredClone(seed),hotels:structuredClone(hotelsDefault),scenario:'cairo'};save()}}
+
+document.getElementById('activitySearch').oninput=renderPool;
+document.getElementById('catFilter').onchange=renderPool;
+
+function switchTab(name){
+ document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===name));
+ document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+ if(name==='calendar')renderCalendar();
+}
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
+
+window.onclick=e=>{
+ if(e.target.id==='activityModal')closeModal();
+ if(e.target.id==='moveModal')e.target.classList.remove('open');
+}
+renderAll();
+</script>
+</body>
+</html>
